@@ -16,9 +16,9 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-const LOCAL_STORAGE_KEY = 'personalInfo';
+export const LOCAL_STORAGE_KEY = 'personalInfo';
 
-const formSchema = z
+export const formSchema = z
    .object({
       fullName: z.string().min(2, {
          message: 'Full name must be at least 3 characters.',

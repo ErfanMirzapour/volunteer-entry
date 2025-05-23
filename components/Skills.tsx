@@ -18,7 +18,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import Tag from './ui/tag';
 
-const LOCAL_STORAGE_KEY = 'skills';
+export const LOCAL_STORAGE_KEY = 'skills';
 
 const schema = z.object({ skill: z.string() });
 
@@ -79,7 +79,7 @@ export default function PersonalInfo() {
                )}
             />
 
-            <div className='flex gap-2 mt-4'>
+            <div className='flex gap-2 mt-4 flex-wrap'>
                {skills.map(skill => (
                   <Tag
                      key={skill}
