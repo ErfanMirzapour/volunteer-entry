@@ -1,5 +1,6 @@
 'use client';
-import classNames from 'classnames';
+
+import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { Fragment } from 'react';
@@ -10,18 +11,18 @@ export default function Layout({ children }: { children: React.ReactNode }) {
    const activeStep = Number(params?.step) || 1;
 
    return (
-      <div className='max-w-screen-md mx-auto'>
-         <div className='flex items-center justify-center gap-8 py-6'>
+      <div className='max-w-md px-4 mx-auto'>
+         <div className='flex items-center justify-center gap-4 py-6'>
             {steps.map((step, idx) => (
                <Fragment key={step}>
                   <div className='flex flex-col items-center'>
                      <div
-                        className={classNames(
-                           'w-12 h-12 flex items-center justify-center rounded-full text-xl font-medium',
+                        className={cn(
+                           'w-14 h-14 flex items-center justify-center rounded-full text-xl font-medium',
                            {
-                              'bg-blue-600 text-white cursor-default':
+                              'bg-gray-800 text-white cursor-default':
                                  step === activeStep,
-                              'bg-white border-2 border-blue-300 text-blue-600':
+                              'bg-white border-2 border-gray-500 text-gray-600':
                                  step !== activeStep,
                            }
                         )}
@@ -39,7 +40,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                      </div>
                   </div>
                   {idx < steps.length - 1 && (
-                     <div className='flex-1 h-px bg-blue-300' />
+                     <div className='flex-1 h-px bg-gray-400' />
                   )}
                </Fragment>
             ))}
