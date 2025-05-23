@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { z } from 'zod';
@@ -9,6 +10,7 @@ import {
    formSchema as piSchema,
 } from './PersonalInfo';
 import { LOCAL_STORAGE_KEY as SKILLS_KEY } from './Skills';
+import { Alert, AlertDescription, AlertTitle } from './ui/alert';
 import { Card, CardContent } from './ui/card';
 
 export default function Confirmation() {
@@ -20,6 +22,9 @@ export default function Confirmation() {
       birthday: '',
    });
    const [skills, setSkills] = useState<string[]>([]);
+   const [success, setSuccess] = useState(false);
+   const [serverError, setServerError] = useState(false);
+   const [submitted, setSubmitted] = useState(false);
 
    useEffect(() => {
       if (typeof window !== 'undefined') {
@@ -38,13 +43,50 @@ export default function Confirmation() {
       }
    }, []);
 
-   const submit = () => {
-      //
-      router.push('/add-volunteer/3');
+   const submit = async () => {
+      setSubmitted(true);
+      try {
+         const response = await fetch('https://task.chapar.co/api/volunteers', {
+            method: 'POST',
+            headers: {
+               'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+               ...personalInfo,
+               fullName: undefined,
+               full_name: personalInfo.fullName,
+               skills,
+            }),
+         });
+
+         if (response.status === 201) {
+            localStorage.removeItem(PI_KEY);
+            localStorage.removeItem(SKILLS_KEY);
+            setSuccess(true);
+         } else {
+            setServerError(true);
+         }
+      } catch {
+         setServerError(true);
+      }
    };
 
    return (
       <div>
+         <Alert
+            className={cn('mb-4', {
+               hidden: !submitted || (!success && !serverError),
+            })}
+            variant={success ? 'default' : 'destructive'}
+         >
+            <AlertTitle>{success ? 'Success!' : 'Oops!'}</AlertTitle>
+            <AlertDescription>
+               {success
+                  ? 'New volunteer has been added.'
+                  : 'Review your data or try again later.'}
+            </AlertDescription>
+         </Alert>
+
          <Card>
             <CardContent>
                <h2 className='font-bold mb-2 text-xl'>Personal Information</h2>
@@ -81,7 +123,7 @@ export default function Confirmation() {
             >
                Back
             </Button>
-            <Button type='button' onClick={submit}>
+            <Button type='button' onClick={submit} disabled={submitted}>
                Submit
             </Button>
          </div>
