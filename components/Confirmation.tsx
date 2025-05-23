@@ -15,7 +15,9 @@ import { Card, CardContent } from './ui/card';
 
 export default function Confirmation() {
    const router = useRouter();
-   const [personalInfo, setPersonalInfo] = useState<z.infer<typeof piSchema>>({
+   const [personalInfo, setPersonalInfo] = useState<z.infer<
+      typeof piSchema
+   > | null>({
       fullName: '',
       phone: '',
       email: '',
@@ -54,7 +56,7 @@ export default function Confirmation() {
             body: JSON.stringify({
                ...personalInfo,
                fullName: undefined,
-               full_name: personalInfo.fullName,
+               full_name: personalInfo?.fullName,
                skills,
             }),
          });
@@ -92,16 +94,16 @@ export default function Confirmation() {
                <h2 className='font-bold mb-2 text-xl'>Personal Information</h2>
                <ul className='mb-4'>
                   <li>
-                     <b>Full Name:</b> {personalInfo.fullName}
+                     <b>Full Name:</b> {personalInfo?.fullName}
                   </li>
                   <li>
-                     <b>Phone:</b> {personalInfo.phone || '-'}
+                     <b>Phone:</b> {personalInfo?.phone || '-'}
                   </li>
                   <li>
-                     <b>Email:</b> {personalInfo.email || '-'}
+                     <b>Email:</b> {personalInfo?.email || '-'}
                   </li>
                   <li>
-                     <b>Birthday:</b> {personalInfo.birthday || '-'}
+                     <b>Birthday:</b> {personalInfo?.birthday || '-'}
                   </li>
                </ul>
                <hr className='mb-4' />
