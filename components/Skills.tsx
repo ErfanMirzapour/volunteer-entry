@@ -45,7 +45,7 @@ export default function PersonalInfo() {
 
    function onSubmit(values: z.infer<typeof schema>) {
       const { skill } = values;
-      if (skills.includes(skill)) return;
+      if (!skill || skills.includes(skill)) return;
       setSkills(skills => [...skills, skill]);
       form.reset({ skill: '' });
    }
@@ -66,12 +66,17 @@ export default function PersonalInfo() {
                render={({ field }) => (
                   <FormItem>
                      <FormLabel>Skills</FormLabel>
-                     <FormControl>
-                        <Input
-                           placeholder='Enter your skills and hit enter'
-                           {...field}
-                        />
-                     </FormControl>
+                     <div className='flex gap-2'>
+                        <FormControl>
+                           <Input
+                              placeholder='Enter your skills and hit enter'
+                              {...field}
+                           />
+                        </FormControl>
+                        <Button type='submit' variant='secondary'>
+                           Add
+                        </Button>
+                     </div>
                      <FormMessage className={cn({ hidden: !showError })}>
                         You have to enter at least one skill!
                      </FormMessage>
