@@ -18,6 +18,7 @@ export default function Tag({
             size='icon'
             variant='link'
             className='w-6 h-6'
+            aria-label='Delete'
          >
             <X />
          </Button>
