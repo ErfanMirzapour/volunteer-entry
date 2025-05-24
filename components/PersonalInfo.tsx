@@ -177,9 +177,9 @@ export default function PersonalInfo() {
                )}
             />
 
-            <Button type='submit' className='w-full'>
-               Next
-            </Button>
+            <div className='flex justify-end gap-4 mt-4'>
+               <Button type='submit'>Next</Button>
+            </div>
          </form>
       </Form>
    );
